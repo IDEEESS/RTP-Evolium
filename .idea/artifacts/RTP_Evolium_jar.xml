@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact name="RTP Evolium:jar">
+    <output-path>$PROJECT_DIR$/..</output-path>
+    <root id="root">
+      <element id="archive" name="RTP Evolium.jar">
+        <element id="module-output" name="RTP Evolium" />
+      </element>
+    </root>
+  </artifact>
+</component>

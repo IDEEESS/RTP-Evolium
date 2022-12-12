@@ -1,0 +1,9 @@
+name: RTPEvolium
+author: IDEEESS
+version: 0.0.1
+main: fr.ideeess.evolium.main.Main
+description: RandomTeleport for Evolium
+prefix: EvoliumRTP
+commands:
+  rtp:
+    description: Random teleport
