@@ -29,21 +29,15 @@ public class RTPCommand implements CommandExecutor {
 
                     if (whatX == 1){
                         this.x = 500 + (int)(Math.random() * ((5000 - 500) + 1)); // Génération du X positif
-                        if (whatZ == 1){
-                            this.z = 500 + (int)(Math.random() * ((5000 - 500) + 1)); // Génération du Z positif
-                        }else {
-                            this.z = -500 + (int)(Math.random() * ((-5000 + 500) - 1)); // Génération du Z négatif
-                        }
                     }else {
                         this.x = -500 + (int)(Math.random() * ((-5000 + 500) - 1)); // Génération du X négatif
-
-                        if (whatZ == 1){
-                            this.z = 500 + (int)(Math.random() * ((5000 - 500) + 1)); // Génération du Z positif
-                        }else {
-                            this.z = -500 + (int)(Math.random() * ((-5000 + 500) - 1)); // Génération du Z négatif
-                        }
                     }
 
+                    if (whatZ == 1){
+                        this.z = 500 + (int)(Math.random() * ((5000 - 500) + 1)); // Génération du Z positif
+                    }else {
+                        this.z = -500 + (int)(Math.random() * ((-5000 + 500) - 1)); // Génération du Z négatif
+                    }
                     if (world.getBlockAt(x,y,z).getType() != Material.AIR){
 
                         for (int i = 64 ; i> 320 ; i++){
@@ -63,7 +57,8 @@ public class RTPCommand implements CommandExecutor {
                         //Cooldown et puis Téléportation
                         CooldownTimer cooldownTimer = new CooldownTimer(x , y , z,player,main);
                         cooldownTimer.runTaskTimer(main , 0 , 20);
-                    }else {
+                        return true;
+                    }
                         //Ajout du joueur dans la HashMap
 
                         int seconds = Math.toIntExact(System.currentTimeMillis() / 1000);
@@ -73,8 +68,9 @@ public class RTPCommand implements CommandExecutor {
                         //Cooldown et puis Téléportation
                         CooldownTimer cooldownTimer = new CooldownTimer(x , y , z,player,main);
                         cooldownTimer.runTaskTimer(main , 0 , 20);
-                    }
-                }else {
+
+                        return true;
+                }
                     //Vérification si cooldown passé
                     int millis = Math.toIntExact(System.currentTimeMillis() / 1000);
                     int playerCooldown = main.getCooldownCMD().get(player);
@@ -82,23 +78,20 @@ public class RTPCommand implements CommandExecutor {
                     if (millis > playerCooldown){
                         main.getCooldownCMD().remove(player);
                         player.sendMessage(ChatColor.GREEN + "Merci de réessayer");
-                    }else {
-
-                        int timeRestant = playerCooldown - millis;
-
-                        int minutes = Math.toIntExact(timeRestant / 60);
-                        int secondes = Math.toIntExact(timeRestant - minutes *60);
-                        player.sendMessage(ChatColor.RED + "[ERREUR] Il vous reste " + ChatColor.GOLD + minutes + ChatColor.RED +" minutes et " + ChatColor.GOLD + secondes + ChatColor.RED + " secondes avant de pouvoir vous téléporter aléatoirement");
+                        return true;
                     }
-                }
-            }else {
-                player.sendMessage(ChatColor.RED + "[ERREUR] Vous n'avez pas la permission requise pour vous téléporter aléatoirement");
+
+                int timeRestant = playerCooldown - millis;
+
+                int minutes = Math.toIntExact(timeRestant / 60);
+                int secondes = Math.toIntExact(timeRestant - minutes *60);
+                player.sendMessage(ChatColor.RED + "[ERREUR] Il vous reste " + ChatColor.GOLD + minutes + ChatColor.RED +" minutes et " + ChatColor.GOLD + secondes + ChatColor.RED + " secondes avant de pouvoir vous téléporter aléatoirement");
                 return false;
             }
-        }else {
-            sender.sendMessage(ChatColor.RED + "[ERREUR] Vous n'êtes pas un joueur");
+            player.sendMessage(ChatColor.RED + "[ERREUR] Vous n'avez pas la permission requise pour vous téléporter aléatoirement");
             return false;
         }
+        sender.sendMessage(ChatColor.RED + "[ERREUR] Vous n'êtes pas un joueur");
         return false;
     }
 }
