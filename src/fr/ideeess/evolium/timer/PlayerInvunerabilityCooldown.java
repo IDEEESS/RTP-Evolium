@@ -15,10 +15,10 @@ public class PlayerInvunerabilityCooldown extends BukkitRunnable {
     @Override
     public void run() {
 
-        player.setInvulnerable(true);
+        player.setInvulnerable(false);
 
         if (t == 0){
-            player.setInvulnerable(false);
+            player.setInvulnerable(true);
             cancel();
         }
 
